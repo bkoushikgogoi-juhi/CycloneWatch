@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071b2c">
+  <title>মানচিত্ৰ · CycloneWatch</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-icon">CW</span><div><h1>Cyclone<span>Watch</span></h1><p>বতৰ আৰু বান-পানী পৰ্যবেক্ষণ</p></div></div>
+    <div class="header-actions"><button id="settingsBtn" class="icon-btn" type="button" aria-label="ছেটিংছ খোলক">⚙</button></div>
+  </header>
+  <main class="container">
+    <nav class="main-nav" aria-label="মুখ্য নেভিগেশন">
+      <a href="index.html"><span>⌂</span> মূল পৃষ্ঠা</a><a href="sensors.html"><span>▥</span> সেন্সৰ</a><a href="alerts.html"><span>🔔</span> সতৰ্কবাণী</a><a class="active" href="map.html"><span>⌖</span> মানচিত্ৰ</a><a href="emergency.html"><span>☎</span> জৰুৰীকালীন</a><a href="safety.html"><span>◈</span> নিৰাপত্তা</a><a href="about.html"><span>ⓘ</span> পৰিচয়</a>
+    </nav>
+
+    <section class="page-heading map-page-heading">
+      <p class="eyebrow"><span></span> স্থানীয় পৰ্যবেক্ষণ</p>
+      <h2>অসম মানচিত্ৰ</h2>
+      <p>ৰেডাৰৰ স্থান, মনিটৰিং ক্ষেত্ৰ আৰু অঞ্চলৰ অৱস্থা চাওক।</p>
+    </section>
+
+    <section class="map-page-layout">
+      <div class="monitoring-map-wrap full-map">
+        <div id="monitoringMap" aria-label="অসম বতৰ পৰ্যবেক্ষণ মানচিত্ৰ"></div>
+      </div>
+      <aside class="map-details map-page-details">
+        <p>ডেমো ঘূৰ্ণীবতাহ স্থান</p>
+        <h3>ধেমাজি জিলা</h3>
+        <dl>
+          <div><dt>অক্ষাংশ</dt><dd>২৭.৪৮১৮° N</dd></div>
+          <div><dt>দ্ৰাঘিমাংশ</dt><dd>৯৪.৫৫৭৩° E</dd></div>
+          <div><dt>অৱস্থা</dt><dd id="mapAreaStatus">ডেমো জাগ্ৰত</dd></div>
+        </dl>
+        <div class="shelter-location-card">
+          <span class="shelter-location-icon">⌂</span>
+          <div><p>নিৰাপদ আশ্ৰয়স্থলী</p><strong>ঘিলামৰা, লখিমপুৰ</strong><small>আনুমানিক স্থান</small></div>
+        </div>
+        <div class="map-action-group">
+          <button type="button" id="locateBtn" class="map-action">ঘূৰ্ণীবতাহ চাওক</button>
+          <button type="button" id="shelterLocateBtn" class="map-action shelter-action">আশ্ৰয়স্থলী চাওক</button>
+          <button type="button" id="userLocationBtn" class="map-action user-location-action">মোৰ স্থান চাওক</button>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <nav class="app-nav" aria-label="এপ নেভিগেশন"></nav>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="script.js?v=15"></script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+
+<!DOCTYPE html>
+<html lang="as">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#071b2c">
+
+  <title>CycloneWatch</title>
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+
+  <header class="topbar">
+  <div class="brand">
+    <span class="brand-icon app-logo" aria-hidden="true">CW</span>
+    <div>
+      <h1>Cyclone<span>Watch</span></h1>
+      <p>বতৰ আৰু বান-পানী পৰ্যবেক্ষণ</p>
+    </div>
+  </div>
+    <div class="header-actions">
+      <button id="settingsBtn" class="icon-btn" type="button" aria-label="Open settings" title="Settings">⚙</button>
+      <span class="offline-label"><span></span> SCIENCE PROJECT</span>
+    </div>
+  </header>
+
+  <main class="container">
+    
+<nav class="main-nav" aria-label="মুখ্য নেভিগেশন">
+  <a class="active" href="index.html"><span>⌂</span> মূল পৃষ্ঠা</a>
+  <a href="sensors.html"><span>▥</span> সেন্সৰ</a>
+  <a href="alerts.html"><span>🔔</span> সতৰ্কবাণী</a>
+  <a href="map.html"><span>⌖</span> মানচিত্ৰ</a>
+  <a href="emergency.html"><span>☎</span> জৰুৰীকালীন</a>
+  <a href="safety.html"><span>◈</span> নিৰাপত্তা</a>
+  <a href="about.html"><span>ⓘ</span> পৰিচয়</a>
+</nav>
+
+
+    <section class="welcome" id="dashboard">
+      <div class="welcome-copy">
+        <p class="eyebrow"><span></span> সমুদায় নিরাপত্তা পৰ্যবেক্ষক</p>
+        <h2>দুৰ্যোগ পৰ্যবেক্ষণ ডেচব’ৰ্ড</h2>
+        <p>আপোনাৰ অঞ্চলৰ বতাহ, বৃষ্টিপাত আৰু জলস্তৰৰ লাইভ তথ্য।</p>
+      </div>
+      <div class="weather-orb" aria-hidden="true">
+        <div class="orb-ring ring-one"></div>
+        <div class="orb-ring ring-two"></div>
+        <span>LIVE</span>
+      </div>
+      <div class="welcome-meta">
+        <span id="lastUpdated">প্ৰথম ৰিডিংৰ বাবে অপেক্ষাৰত</span>
+        <span class="status-chip"><i></i> চিষ্টেম সাজু আছে</span>
+      </div>
+    </section>
+
+    <section class="quick-actions" aria-label="দ্ৰুত কাৰ্য">
+      <a href="alerts.html" class="quick-action">
+        <span class="quick-icon alert-icon">🔔</span>
+        <span><small>সক্ৰিয় জাননী</small><strong>সতৰ্কবাণী চাওক</strong></span>
+        <i>›</i>
+      </a>
+      <a href="map.html" class="quick-action">
+        <span class="quick-icon map-icon">⌖</span>
+        <span><small>স্থানীয় অঞ্চল</small><strong>জীৱন্ত মানচিত্ৰ</strong></span>
+        <i>›</i>
+      </a>
+      <a href="safety.html" class="quick-action">
+        <span class="quick-icon safety-icon">◈</span>
+        <span><small>পূৰ্ব প্রস্তুতি</small><strong>নিৰাপত্তা সহায়</strong></span>
+        <i>›</i>
+      </a>
+      <a href="emergency.html" class="quick-action emergency-action">
+        <span class="quick-icon">☎</span>
+        <span><small>তাৎক্ষণিক সহায়</small><strong>জৰুৰী যোগাযোগ</strong></span>
+        <i>›</i>
+      </a>
+    </section>
+
+    <section class="location-tools" aria-label="স্থানীয় অৱস্থা">
+      <div class="location-copy">
+        <span class="location-icon">⌖</span>
+        <div>
+          <p>আপোনাৰ স্থান</p>
+          <strong id="locationName">স্থান যোগ কৰা হোৱা নাই</strong>
+          <small id="locationCoordinates">আপোনাৰ বৰ্তমান স্থান সংৰক্ষণ কৰক</small>
+        </div>
+      </div>
+      <div class="location-actions">
+        <button id="addLocationBtn" class="location-btn primary-location-btn" type="button">⌖ Share your location</button>
+        <button id="locationStatusBtn" class="location-btn" type="button">আপোনাৰ স্থানৰ স্থিতি চাওক</button>
+      </div>
+    </section>
+
+    <section class="region-selector" aria-labelledby="regionSelectorTitle">
+      <div class="region-heading">
+        <div>
+          <p>LOCATION REGION</p>
+          <h3 id="regionSelectorTitle">Select region</h3>
+        </div>
+        <button id="clearRegionBtn" class="region-clear-btn" type="button">Clear</button>
+      </div>
+      <div class="region-fields">
+        <label>
+          <span>Country</span>
+          <select id="countrySelect" aria-label="Select country">
+            <option value="">Select country</option>
+          </select>
+        </label>
+        <label>
+          <span>State / Province / Region</span>
+          <input id="regionSelect" list="regionOptions" type="text" placeholder="Select or enter region" autocomplete="off">
+          <datalist id="regionOptions"></datalist>
+        </label>
+        <button id="saveRegionBtn" class="region-save-btn" type="button">Save region</button>
+      </div>
+    </section>
+
+    <section id="locationStatusPanel" class="location-status-panel" aria-live="polite" hidden>
+      <div class="location-status-heading">
+        <div>
+          <p>স্থানীয় সুৰক্ষা পৰ্যালোচনা</p>
+          <h3 id="locationStatusTitle">স্থান সংৰক্ষণ কৰক</h3>
+        </div>
+        <span id="locationStatusBadge">অপেক্ষাৰত</span>
+      </div>
+      <p id="locationStatusMessage">আপোনাৰ স্থান যোগ কৰিলে অঞ্চলৰ দূৰত্ব আৰু পৰ্যবেক্ষণ স্থিতিৰ ভিত্তিত সাৰাংশ দেখোৱা হ’ব।</p>
+      <div class="dhemaji-status-strip">
+        <span class="dhemaji-status-icon">🌀</span>
+        <div>
+          <small>ধেমাজি মনিটৰিং স্থিতি</small>
+          <strong id="dhemajiStatusText">ধেমাজি: মনিটৰিং চলি আছে</strong>
+        </div>
+        <a href="map.html?showLocation=1" id="viewLocationMapLink">মানচিত্ৰত চাওক →</a>
+      </div>
+    </section>
+
+    <section class="connection panel">
+      <div class="connection-copy">
+        <span class="connection-icon">⌁</span>
+        <div>
+          <p class="connection-label">সঁজুলি সংযোগ</p>
+          <h3 id="connectionStatus">সংযুক্ত নহয়</h3>
+        </div>
+      </div>
+      <button id="connectBtn" class="primary-btn"><span>▶</span> ডেমো মড</button>
+    </section>
+
+    <section class="status-overview" aria-label="Monitoring overview">
+      <article class="overview-card risk-card">
+        <div class="overview-icon">◉</div>
+        <div><p>সুৰক্ষা পৰ্যায়</p><strong id="riskStatus">নিৰীক্ষণত</strong></div>
+        <span class="overview-badge" id="riskBadge">সাধাৰণ</span>
+      </article>
+      <article class="overview-card">
+        <div class="overview-icon blue">↗</div>
+        <div><p>শেহতীয়া আপডেট</p><strong id="compactUpdated">অপেক্ষাৰত</strong></div>
+      </article>
+      <article class="overview-card">
+        <div class="overview-icon violet">◎</div>
+        <div><p>পৰ্যবেক্ষণ উৎস</p><strong>স্থানীয় ডেমো</strong></div>
+      </article>
+    </section>
+
+    <section class="forecast-section" aria-labelledby="forecastTitle">
+      <div class="forecast-heading">
+        <div><p>সামনেৰ অনুমান</p><h2 id="forecastTitle">পৰৱৰ্তী ৬ ঘণ্টা</h2></div>
+        <span>ডেমো আগজাননী</span>
+      </div>
+      <div class="forecast-track">
+        <article class="forecast-item active"><small>এতিয়া</small><strong>☁️</strong><b>সাধাৰণ</b></article>
+        <article class="forecast-item"><small>+১ ঘ.</small><strong>🌧️</strong><b>বৃষ্টি</b></article>
+        <article class="forecast-item"><small>+২ ঘ.</small><strong>🌧️</strong><b>বৃষ্টি</b></article>
+        <article class="forecast-item"><small>+৩ ঘ.</small><strong>🌬️</strong><b>বতাহ</b></article>
+        <article class="forecast-item"><small>+৪ ঘ.</small><strong>⛈️</strong><b>সতৰ্ক</b></article>
+        <article class="forecast-item"><small>+৬ ঘ.</small><strong>🌦️</strong><b>প্ৰত্যাশিত</b></article>
+      </div>
+    </section>
+
+    <section class="map-section" aria-labelledby="mapTitle">
+      <div class="map-heading">
+        <div>
+          <p class="map-kicker">স্থানীয় পৰ্যবেক্ষণ অঞ্চল</p>
+          <h2 id="mapTitle">ক্ষেত্ৰীয় মানচিত্ৰ</h2>
+        </div>
+        <div class="map-status"><span></span><span id="mapStatusText">অপেক্ষাৰত</span></div>
+      </div>
+      <div class="monitoring-map-wrap">
+        <div id="monitoringMap" aria-label="Assam monitoring location map"></div>
+        <aside class="map-details">
+          <p>মনিটৰিং স্থান</p>
+          <h3>ধেমাজি জিলা</h3>
+          <dl>
+            <div><dt>অক্ষাংশ</dt><dd>২৭.৪৮১৮° N</dd></div>
+            <div><dt>দ্ৰাঘিমাংশ</dt><dd>৯৪.৫৫৭৩° E</dd></div>
+            <div><dt>অৱস্থা</dt><dd id="mapAreaStatus">ডেমো জাগ্ৰত</dd></div>
+          </dl>
+          <div class="shelter-location-card">
+            <span class="shelter-location-icon">⌂</span>
+            <div><p>নিৰাপদ আশ্ৰয়স্থলী</p><strong>ঘিলামৰা, লখিমপুৰ</strong><small>আনুমানিক স্থান</small></div>
+          </div>
+          <div class="map-action-group">
+            <button type="button" id="locateBtn" class="map-action">ঘূৰ্ণীবতাহ চাওক</button>
+            <button type="button" id="shelterLocateBtn" class="map-action shelter-action">আশ্ৰয়স্থলী চাওক</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="monitoring">
+      <div class="section-heading">
+        <h2>লাইভ সেন্সৰ ৰিডিং</h2>
+        <span class="live-dot">● ডেমো</span>
+      </div>
+
+      <div class="sensor-grid">
+
+        <article class="sensor-card">
+          <div class="sensor-icon water-icon" aria-hidden="true">H₂O</div>
+          <p class="sensor-name">ফ্লাডগাৰ্ড মিনি <span class="unit-tag">জলস্তৰ</span></p>
+          <h3 id="waterValue">-- <small>ছেমি</small></h3>
+          
+     <div class="meter">
+       <div class="meter-fill" id="waterMeter"></div>
+     </div>
+
+          <p id="waterStatus" class="sensor-status">তথ্যৰ অপেক্ষাৰত</p>
+     <div id="waterTrend" class="water-trend" aria-live="polite">
+       <strong>STABLE</strong>
+       <span>পানীৰ স্তৰ প্ৰায় একে আছে।</span>
+     </div>
+
+        </article>
+
+        <article class="sensor-card">
+          <div class="sensor-icon rain-icon" aria-hidden="true">RAIN</div>
+          <p class="sensor-name">বৃষ্টিপাত সেন্সৰ <span class="unit-tag">মান</span></p>
+          <h3 id="rainValue">-- <small>এমএম</small></h3>
+          <p id="rainStatus" class="sensor-status">তথ্যৰ অপেক্ষাৰত</p>
+        </article>
+
+        <article class="sensor-card">
+          <div class="sensor-icon wind-icon" aria-hidden="true">WIND</div>
+          <p class="sensor-name">বতাহ সেন্সৰ <span class="unit-tag">গতি</span></p>
+          <h3 id="windValue">-- <small>কি.মি./ঘ.</small></h3>
+          <p class="sensor-status">প্ৰতি ২ ছেকেণ্ডত পালছ</p>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>পৰ্যবেক্ষণ তথ্য</h2>
+      <div class="alert-panel" id="alertPanel">
+        <div class="alert-symbol">ℹ️</div>
+        <div>
+          <h3 id="alertTitle">ৰিডিংৰ অপেক্ষাৰত</h3>
+          <p id="alertMessage">
+            নমুনা সেন্সৰ তথ্য চাবলৈ ডেমো মড আৰম্ভ কৰক।
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="safety">
+      <h2>জৰুৰীকালীন নিৰাপত্তা নিৰ্দেশিকা</h2>
+
+      <article class="guide-card">
+        <h3>🌪️ ঘূৰ্ণীবতাহৰ সময়ত</h3>
+        <ul>
+          <li>বতৰ বিভাগৰ চৰকাৰী সতৰ্কবাণী শুনিবা।</li>
+          <li>ঘৰৰ ভিতৰত নিৰাপদ ঠাইত থাকিবা।</li>
+          <li>জানলা আৰু দুৱাৰৰ পৰা আঁতৰত থাকিবা।</li>
+          <li>জৰুৰী সামগ্ৰী সাজু ৰাখিবা।</li>
+        </ul>
+      </article>
+
+      <article class="guide-card">
+        <h3>🌊 বানপানীৰ সময়ত</h3>
+        <ul>
+          <li>বানপানীৰ সোঁত থকা ঠাই পাৰ হ'বলৈ চেষ্টা নকৰিবা।</li>
+          <li>বিদ্যুতৰ খুঁটা আৰু তাঁৰৰ পৰা আঁতৰত থাকিবা।</li>
+          <li>প্ৰশাসনৰ নিৰ্দেশ মানি চলিবা।</li>
+          <li>প্ৰয়োজনত নিৰাপদ ওখ ঠাইলৈ যাবা।</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section about" id="about">
+      <h2>এই প্ৰকল্পৰ বিষয়ে</h2>
+      <p>
+        CycloneWatch এক শিক্ষার্থী বিজ্ঞান-মেলাৰ প্ৰোটোটাইপ, যিয়ে পৰিবেশ সেন্সৰ পৰ্যবেক্ষণ আৰু সমুদায়ৰ নিৰাপত্তা তথ্য দেখুৱায়।
+      </p>
+      <p class="disclaimer">
+        এই প্ৰোটোটাইপে ঘূৰ্ণীঝড়ৰ পূৰ্বানুমান নকৰে আৰু চৰকাৰী বতৰ বা জৰুৰী সতৰ্কবাণীৰ সলনি নহয়।
+      </p>
+    </section>
+
+    <footer>
+      <h3>🌪️ CycloneWatch</h3>
+      <p>বিজ্ঞান মেলা প্ৰকল্প · ২০২৬</p>
+    </footer>
+
+  </main>
+
+  <nav class="app-nav" aria-label="App navigation">
+    <a href="index.html" class="active" data-page="index.html"><span>⌂</span><small>Home</small></a>
+    <a href="sensors.html" data-page="sensors.html"><span>▥</span><small>Sensors</small></a>
+    <button id="demoNavBtn" type="button"><span class="demo-nav-icon">▶</span><small>Demo</small></button>
+    <a href="alerts.html" data-page="alerts.html"><span>🔔</span><small>Alerts</small></a>
+    <a href="safety.html" data-page="safety.html"><span>◈</span><small>Safety</small></a>
+    <button id="bottomSettingsBtn" type="button"><span>⚙</span><small>Settings</small></button>
+    <a href="about.html" data-page="about.html"><span>ⓘ</span><small>About</small></a>
+    <a href="emergency.html" data-page="emergency.html" class="emergency-nav"><span>☎</span><small>Emergency</small></a>
+  </nav>
+
+  <div id="settingsSheet" class="settings-sheet" aria-hidden="true">
+    <button class="sheet-backdrop" type="button" aria-label="Close settings"></button>
+    <section class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="sheet-handle"></div>
+      <div class="sheet-heading">
+        <div>
+          <p class="sheet-kicker">APP SETTINGS</p>
+          <h2 id="settingsTitle">Appearance</h2>
+        </div>
+        <button id="closeSettingsBtn" class="sheet-close" type="button" aria-label="Close settings">×</button>
+      </div>
+
+      <p class="settings-label">Choose your theme</p>
+      <div class="theme-grid" role="group" aria-label="Theme selector">
+        <button class="theme-card active" type="button" data-theme="dark"><span class="theme-preview dark-preview"></span><span>Midnight</span></button>
+        <button class="theme-card" type="button" data-theme="blue"><span class="theme-preview blue-preview"></span><span>Ocean</span></button>
+        <button class="theme-card" type="button" data-theme="light"><span class="theme-preview light-preview"></span><span>Daylight</span></button>
+        <button class="theme-card" type="button" data-theme="storm"><span class="theme-preview storm-preview"></span><span>Storm</span></button>
+        <button class="theme-card" type="button" data-theme="sunset"><span class="theme-preview sunset-preview"></span><span>Sunset</span></button>
+      </div>
+
+      <div class="settings-row">
+        <div><strong>Demo notifications</strong><small>Show sample activity updates</small></div>
+        <label class="switch"><input id="notificationsToggle" type="checkbox" checked><span></span></label>
+      </div>
+    </section>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="script.js?v=15"></script>
+  <script>
+    (function () {
+      const sheet = document.getElementById("settingsSheet");
+      if (!sheet) return;
+      if (!sheet.querySelector(".language-grid")) {
+        const themeGrid = sheet.querySelector(".theme-grid");
+        if (themeGrid) {
+          const savedLanguage = localStorage.getItem("cyclonewatch-language") || "as";
+          themeGrid.insertAdjacentHTML("afterend", `
+            <p class="settings-label">Language</p>
+            <div class="language-grid" role="group" aria-label="Language selector">
+              <button class="language-card${savedLanguage === "as" ? " active" : ""}" type="button" data-language="as"><span>অসমীয়া</span><small>Assamese</small></button>
+              <button class="language-card${savedLanguage === "en" ? " active" : ""}" type="button" data-language="en"><span>English</span><small>English</small></button>
+            </div>
+          `);
+        }
+      }
+      sheet.querySelectorAll(".language-card").forEach(button => {
+        button.addEventListener("click", () => {
+          localStorage.setItem("cyclonewatch-language", button.dataset.language);
+          if (typeof window.applyLanguage === "function") {
+            window.applyLanguage(button.dataset.language);
+          } else {
+            location.reload();
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

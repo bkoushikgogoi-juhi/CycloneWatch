@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="as">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#071b2c"><title>সেন্সৰ ডেচব’ৰ্ড · CycloneWatch</title>
+  <link rel="stylesheet" href="style.css"><link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <header class="topbar"><div class="brand"><span class="brand-icon">🌀</span><div><h1>Cyclone<span>Watch</span></h1><p>Weather &amp; Flood Monitoring</p></div></div><div class="header-actions"><button id="settingsBtn" class="icon-btn" type="button" aria-label="Open settings">⚙</button></div></header>
+  <main class="container">
+    <nav class="main-nav" aria-label="মুখ্য নেভিগেশন"><a href="index.html"><span>⌂</span> মূল পৃষ্ঠা</a><a class="active" href="sensors.html"><span>▥</span> সেন্সৰ</a><a href="safety.html"><span>◈</span> নিৰাপত্তা</a><a href="about.html"><span>ⓘ</span> পৰিচয়</a></nav>
+    <section class="page-heading"><p class="eyebrow"><span></span> লাইভ পৰ্যবেক্ষণ</p><h2>সেন্সৰ ডেচব’ৰ্ড</h2><p>স্থানীয় পৰিবেশৰ সেন্সৰ ৰিডিং পৰ্যবেক্ষণ কৰক।</p></section>
+    <section class="connection panel"><div><h3>সঁজুলি সংযোগ</h3><p id="connectionStatus">সংযুক্ত নহয়</p></div><button id="connectBtn" class="primary-btn">ডেমো মড</button></section>
+    <section class="section" id="monitoring"><div class="section-heading"><h2>লাইভ সেন্সৰ ৰিডিং</h2><span class="live-dot">● ডেমো</span></div><div class="sensor-grid">
+      <article class="sensor-card"><div class="sensor-icon">🌊</div><p class="sensor-name">ফ্লাডগাৰ্ড মিনি <span class="unit-tag">জলস্তৰ</span></p><h3 id="waterValue">-- <small>ছেমি</small></h3><div class="meter"><div class="meter-fill" id="waterMeter"></div></div><p id="waterStatus" class="sensor-status">তথ্যৰ অপেক্ষাৰত</p><div id="waterTrend" class="water-trend" aria-live="polite"><strong>STABLE</strong><span>পানীৰ স্তৰ প্ৰায় একে আছে।</span></div></article>
+      <article class="sensor-card"><div class="sensor-icon">🌧️</div><p class="sensor-name">বৃষ্টিপাত সেন্সৰ <span class="unit-tag">মান</span></p><h3 id="rainValue">--</h3><p id="rainStatus" class="sensor-status">তথ্যৰ অপেক্ষাৰত</p></article>
+      <article class="sensor-card"><div class="sensor-icon">🌬️</div><p class="sensor-name">বতাহ সেন্সৰ <span class="unit-tag">গতি</span></p><h3 id="windValue">--</h3><p class="sensor-status">প্ৰতি ২ ছেকেণ্ডত পালছ</p></article>
+    </div></section>
+    <section class="section"><h2>পৰ্যবেক্ষণ তথ্য</h2><div class="alert-panel" id="alertPanel"><div class="alert-symbol">ℹ️</div><div><h3 id="alertTitle">ৰিডিংৰ অপেক্ষাৰত</h3><p id="alertMessage">নমুনা সেন্সৰ তথ্য চাবলৈ ডেমো মড আৰম্ভ কৰক।</p></div></div></section>
+  </main>
+  <nav class="app-nav" aria-label="App navigation"><a href="index.html"><span>⌂</span><small>Home</small></a><a href="sensors.html" class="active"><span>▥</span><small>Sensors</small></a><button id="demoNavBtn" type="button"><span class="demo-nav-icon">▶</span><small>Demo</small></button><a href="safety.html"><span>◈</span><small>Safety</small></a><a href="about.html"><span>ⓘ</span><small>About</small></a></nav>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js?v=15"></script>
+</body></html>
